@@ -26,7 +26,7 @@ app.get("/:url", function (request, response) {
  
   var myobj = {};
   
-  myobj.originalUrl = request.params.url;
+  myobj.originalUrl = decodeURIComponent(request.params.url);
   myobj.shortUrl = shortenUrl();
   response.send(myobj);
 });
