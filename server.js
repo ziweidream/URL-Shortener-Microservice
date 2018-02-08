@@ -12,7 +12,7 @@ function shortenUrl(originalUrl){
     var num = Math.floor(Math.random() * 10);
     return num.toString();
   }
-  var url = "mongodb://vivi:123@ds217898.mlab.com:17898/url-shortener";
+  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
   MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("url-shortener");
@@ -52,27 +52,7 @@ app.get("/new/*", function (request, response) {
   response.send(myobj);
 });
 
-app.get("/:num", function (request, response) {
-   //var string = encodeURIComponent(request.params.num);
-  var q = request.params.num;
-  var url = "mongodb://vivi:123@ds217898.mlab.com:17898/url-shortener";
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("url-shortener");
-    //Find the first document in the customers collection:
-    dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me" + q},function(err, result) {
-    if (err) throw err;   
-    console.log(result);
-      
-    db.close();
-     
-  });
-    
-  });
-    response.redirect(result.original);
 
- 
-});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
