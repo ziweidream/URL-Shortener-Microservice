@@ -51,21 +51,28 @@ app.get("/new/*", function (request, response) {
   }
   response.send(myobj);
 });
-
+function getUrl(q) {
+  var origin = "";
+  var url = "mongodb://vivi:123@ds217898.mlab.com:17898/url-shortener";
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("url-shortener");
+    //Find the first document in the customers collection:
+    origin = dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me" + q},function(err, result) {
+    if (err) throw err;   
+    console.log(result);
+    db.close();
+  });
+  });
+  console.log(origin);
+  return origin.original;
+}
 app.get("/:num", function (request, response) {
    //var string = encodeURIComponent(request.params.num);
   var q = request.params.num;
-  var url = "mongodb://vivi:123@ds217898.mlab.com:17898/url-shortener";
-  MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("url-shortener");
-  //Find the first document in the customers collection:
-  var a = dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me" + q},function(err, result) {
-    if (err) throw err;   
-    db.close();
-  });
-   response.redicret(a.original);
-});
+  var origin = getUrl(q);
+   response.redirect(q);
+
  
 });
 
