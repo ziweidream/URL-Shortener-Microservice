@@ -5,7 +5,7 @@
 var express = require('express');
 var app = express();
 
-function shortenUrl(str){ 
+function shortenUrl(){ 
   var shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();
   function random() {
     var num = Math.floor(Math.random() * 10);
@@ -22,11 +22,12 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/new/:url", function (request, response) {
+app.get("/:url", function (request, response) {
  
   var myobj = {};
+  
   myobj.originalUrl = request.params.url;
-  myobj.shortUrl = shortenUrl(request.params.url);
+  myobj.shortUrl = shortenUrl();
   response.send(myobj);
 });
 
