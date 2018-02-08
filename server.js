@@ -22,12 +22,15 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/:url", function (request, response) {
+app.get("/new/*", function (request, response) {
  
   var myobj = {};
-  
-  myobj.originalUrl = decodeURIComponent(request.params.url);
+  if (request.params[0].substring(0, 4) === "http") {
+  myobj.originalUrl = request.params[0];
   myobj.shortUrl = shortenUrl();
+  } else {
+    
+  }
   response.send(myobj);
 });
 
