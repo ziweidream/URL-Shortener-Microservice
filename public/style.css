@@ -15,14 +15,17 @@ body {
 
 h1 {
   font-weight: bold;
-  color: pink;
+  color: blue;
 }
 
 .bold {
   font-weight: bold;
+  padding-top: 15px;
 }
 
-
+.blue {
+  color: blue; 
+}
 
 form {
   margin-bottom: 25px;
@@ -44,26 +47,7 @@ input {
   font-size: 16px;
 }
 
-button {
-  font-size: 16px;
-  border-radius: 3px;
-  background-color: lightgrey;
-  border: 1px solid grey;
-  box-shadow: 2px 2px teal;
-  cursor: pointer;
-}
 
-button:hover {
-  background-color: yellow;
-}
-
-button:active {
-  box-shadow: none;
-}
-
-li {
-  margin-bottom: 5px;
-}
 
 footer {
   margin-top: 50px;

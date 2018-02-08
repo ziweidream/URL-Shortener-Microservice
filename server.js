@@ -1,6 +1,7 @@
 // server.js
 // where your node app starts
-var https = require('https');
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://vivi:123@ds217898.mlab.com:17898/url-shortener";
 // init project
 var express = require('express');
 var app = express();
@@ -14,8 +15,8 @@ function shortenUrl(){
   return shortened;
 }
 
-function isUrlValid(url) {
-    var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+function isUrlValid(str) {
+    var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
     if(res == null)
         return false;
     else
@@ -35,7 +36,7 @@ app.get("/new/*", function (request, response) {
     myobj.originalUrl = request.params[0];
     myobj.shortUrl = shortenUrl();
   } else {
-    myobj.error = "Wrong url format, make sure you have a valid protocol and real site."
+    myobj.error = "Wrong url format, please make sure you have a valid protocol and real site."
   }
   response.send(myobj);
 });
