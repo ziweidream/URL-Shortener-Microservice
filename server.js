@@ -15,7 +15,7 @@ function shortenUrl(originalUrl){
   var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
   MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("url-shortener");
+  var dbo = db.db("urlmicroservice");
   var obj = { original: originalUrl, short: shortened };
   dbo.collection("urls").insertOne(obj, function(err, res) {
     if (err) throw err;
