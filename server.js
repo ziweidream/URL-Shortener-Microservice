@@ -33,6 +33,23 @@ function isUrlValid(str) {
     else
         return true;
 }
+
+function isInDb(str) {
+  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("urlmicroservice");    	
+    dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me/" + q},function(err, doc) {
+    if (doc) {
+	    
+    } else {
+	    
+	  }    
+    db.close();     
+    });    
+  }); 
+  
+}
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
@@ -52,7 +69,22 @@ app.get("/new/*", function (request, response) {
   response.send(myobj);
 });
 
-
+app.get("/:num", function (request, response) {   
+  var q = request.params.num;
+  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("urlmicroservice");    	
+    dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me/" + q},function(err, doc) {
+    if (doc) {
+	    response.redirect(doc.original);
+    } else {
+	    response.redirect('/');
+	  }    
+    db.close();     
+    });    
+  });    
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
