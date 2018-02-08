@@ -63,10 +63,11 @@ app.get("/:num", function (request, response) {
     dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me" + q},function(err, result) {
     if (err) throw err;   
     console.log(result);
-      response.redirect(result.original);
+     
     db.close();
       
   });
+     response.redirect(result.original);
   });
    
 
