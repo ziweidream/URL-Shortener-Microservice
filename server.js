@@ -15,7 +15,7 @@ function shortenUrl(originalUrl){
   var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
   MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("urlmicroservice");
+  var dbo = db.db("urlmicroservice");    
   var obj = { original: originalUrl, short: shortened };
   dbo.collection("urls").insertOne(obj, function(err, res) {
     if (err) throw err;
@@ -39,16 +39,15 @@ function isInDb(str) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("urlmicroservice");    	
-    dbo.collection("urls").findOne({short: "https://supreme-save.glitch.me/" + q},function(err, doc) {
+    dbo.collection("urls").findOne({original: str},function(err, doc) {
     if (doc) {
-	    
+	    return true;
     } else {
-	    
+	    return false;
 	  }    
     db.close();     
     });    
-  }); 
-  
+  });   
 }
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
