@@ -52,6 +52,11 @@ app.get("/new/*", function (request, response) {
   response.send(myobj);
 });
 
+app.get("/:num", function (request, response) {
+   var string = encodeURIComponent(request.params.num);
+  response.redirect('/' + string);
+});
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
