@@ -1,8 +1,4 @@
-// server.js
-// where your node app starts
 var MongoClient = require('mongodb').MongoClient;
-
-// init project
 var express = require('express');
 var app = express();
 
@@ -45,24 +41,22 @@ function isInDb(str) {
 }
 
 function isUrlValid(str) {
-    var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-    if(res == null)
+    var result = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    if(result == null)
         return false;
     else
         return true;
 }
 
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-// http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
 app.get("/new/*", function (request, response) { 
   var myobj = {};
-  if (request.params[0].substring(0, 5) === "http:" || request.params[0].substring(0, 5) === "http:" && isUrlValid(request.params[0])) {
+  if ((request.params[0].substring(0, 6) === "http:/" || request.params[0].substring(0, 6) === "https:") && isUrlValid(request.params[0])) {
     myobj.originalUrl = request.params[0];
     myobj.shortUrl = shortenUrl(request.params[0]);
   } else {
