@@ -7,7 +7,10 @@ var express = require('express');
 var app = express();
 
 function shortenUrl(originalUrl){ 
-  var shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();
+  var shortened = originalInDb(originalUrl);
+  if (shortened === "") {
+    shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();
+  }
   function random() {
     var num = Math.floor(Math.random() * 10);
     return num.toString();
@@ -15,19 +18,16 @@ function shortenUrl(originalUrl){
   if (isInDb(shortened)) {
     shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();
   } 
-  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
- 
+  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice"; 
   MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("urlmicroservice");    
-  var obj = { original: originalUrl, short: shortened };
-  dbo.collection("urls").findOne({})
+  var obj = { original: originalUrl, short: shortened }; 
   dbo.collection("urls").insertOne(obj, function(err, res) {
     if (err) throw err;   
     db.close();
   });
-});
-  
+});  
   return shortened;
 }
 
@@ -37,6 +37,23 @@ function isUrlValid(str) {
         return false;
     else
         return true;
+}
+function originalInDb(str) {
+  var shortened = "";
+  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("urlmicroservice");    	
+    dbo.collection("urls").findOne({original: str},function(err, doc) {
+    if (doc) {
+	    shortened = doc.short;
+    } else {
+	    shortened =  "";
+	  }    
+    db.close();     
+    });    
+  }); 
+  return shortened;
 }
 
 function isInDb(str) {
