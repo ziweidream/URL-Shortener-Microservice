@@ -28,14 +28,6 @@ function shortenUrl(originalUrl){
   return shortened;
 }
 
-function isUrlValid(str) {
-    var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-    if(res == null)
-        return false;
-    else
-        return true;
-}
-
 function isInDb(str) {
   var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
   MongoClient.connect(url, function(err, db) {
@@ -51,6 +43,15 @@ function isInDb(str) {
     });    
   });   
 }
+
+function isUrlValid(str) {
+    var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    if(res == null)
+        return false;
+    else
+        return true;
+}
+
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
@@ -61,7 +62,7 @@ app.get("/", function (request, response) {
 
 app.get("/new/*", function (request, response) { 
   var myobj = {};
-  if (request.params[0].substring(0, 4) === "http" && isUrlValid(request.params[0])) {
+  if (request.params[0].substring(0, 5) === "http:" || request.params[0].substring(0, 5) === "http:" && isUrlValid(request.params[0])) {
     myobj.originalUrl = request.params[0];
     myobj.shortUrl = shortenUrl(request.params[0]);
   } else {
