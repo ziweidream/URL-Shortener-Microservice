@@ -11,7 +11,7 @@ function shortenUrl(originalUrl){
   if (isInDb(shortened)) {
     shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();
   } 
-  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice"; 
+  var url = process.env.MONGODB_URI; 
   MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("urlmicroservice");    
@@ -25,7 +25,7 @@ function shortenUrl(originalUrl){
 }
 
 function isInDb(str) {
-  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
+  var url = process.env.MONGODB_URI;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("urlmicroservice");    	
@@ -67,7 +67,7 @@ app.get("/new/*", function (request, response) {
 
 app.get("/:num", function (request, response) {   
   var q = request.params.num;
-  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
+  var url = process.env.MONGODB_URI;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("urlmicroservice");    	
