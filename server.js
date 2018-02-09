@@ -40,7 +40,7 @@ function isInDb(str) {
   });   
 }
 
-function isUrlValid(str) {
+function isUrlValid(str) {//this small piece of code is based on a question and answer on stackoverflow at https://stackoverflow.com/questions/30970068/js-regex-url-validation on 8 Feb,2018
     var result = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
     if(result == null)
         return false;
