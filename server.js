@@ -6,11 +6,8 @@ var MongoClient = require('mongodb').MongoClient;
 var express = require('express');
 var app = express();
 
-function shortenUrl(originalUrl){ 
-  var shortened = originalInDb(originalUrl);
-  if (shortened === "") {
-    shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();
-  }
+function shortenUrl(originalUrl){  
+  var shortened = 'https://supreme-save.glitch.me/' + random() + random() + random() + random();  
   function random() {
     var num = Math.floor(Math.random() * 10);
     return num.toString();
@@ -37,23 +34,6 @@ function isUrlValid(str) {
         return false;
     else
         return true;
-}
-function originalInDb(str) {
-  var shortened = "";
-  var url = "mongodb://vivi:123@ds229918.mlab.com:29918/urlmicroservice";
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("urlmicroservice");    	
-    dbo.collection("urls").findOne({original: str},function(err, doc) {
-    if (doc) {
-	    shortened = doc.short;
-    } else {
-	    shortened =  "";
-	  }    
-    db.close();     
-    });    
-  }); 
-  return shortened;
 }
 
 function isInDb(str) {
